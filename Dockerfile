@@ -46,4 +46,4 @@ USER appuser
 
 # Entry point to run jar file
 #ENTRYPOINT java -jar <name>.jar
-ENTRYPOINT ["java", "-jar","application.jar"]
+ENTRYPOINT ["java","-Xss512k","-XX:+UseG1GC","-Xss512k","-Xmx640m","-XX:MaxRAM=795m","-Djava.security.egd=file:/dev/./urandom","-jar","-Dserver.port=${EXPOSE_PORT}","application.jar"]
