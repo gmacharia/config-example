@@ -13,7 +13,7 @@ ARG APPLICATION_NAME
 ENV EXPOSE_PORT=8080
 
 ## Service Home Directory
-ENV APP_HOME_DIRECTORY=/home/kobe/NetBeansProjects/kyosk-config
+ENV APP_HOME_DIRECTORY=/apps/kyosk-config
 
 ## Switch to User Root.
 USER root
