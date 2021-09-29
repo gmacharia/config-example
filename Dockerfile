@@ -28,7 +28,7 @@ RUN useradd --home-dir ${APP_HOME_DIRECTORY} -u 10000 -g appuser appuser
 
 # Add jar to application
 ADD target/${APPLICATION_NAME}.jar ${APP_HOME_DIRECTORY}/application.jar
-RUN echo "${APP_HOME_DIRECTORY}/kyosk-config-0.0.1-SNAPSHOT.jar"
+RUN echo "${APP_HOME_DIRECTORY}/application.jar"
 
 
 # Grant app user the necessary rights
