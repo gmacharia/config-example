@@ -13,7 +13,7 @@ echo " ********** creating namespace ********** "
 kubectl create namespace kyosk
 
 ## Sleep for a few to make sure the pod is deployed
-sleep 5m
+sleep 10s
 
 ## Now We deploy our service.
 
@@ -30,7 +30,7 @@ echo " ********** deploying service ********** "
 kubectl -n kyosk create deployment $application --image=$docker_username/$application:$docker_image_tag
 
 ## Sleep for 5m to wait for pod to start running.
-sleep 5m
+sleep 20s
 
 ## Expose the service using via loadBalancer IP.
 ## On Other clusters, the IP is generated as an external IP.
