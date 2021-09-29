@@ -20,7 +20,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag kyosk/kyosk-config-service:v1.0.0-${GITHUB_SHA::6}-amd64
+      run: docker build . --file Dockerfile --tag kyosk/kyosk-config-service:v1.0.0-${GITHUB_SHA::6}-amd64 --build-arg BASE_IMAGE=openjdk:11.0.3-jdk
     - name: Docker Push
       run: docker push  kyosk/kyosk-config-service:v1.0.0-${GITHUB_SHA::6}-amd64
       
