@@ -46,4 +46,4 @@ USER appuser
 
 # Entry point to run jar file
 #ENTRYPOINT java -jar <name>.jar
-ENTRYPOINT ["java", "-jar","kyosk-config-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar","application.jar"]
