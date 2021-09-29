@@ -1,48 +1,54 @@
-# get the base image from argument
-# This makes it easier to manage cross platform images - AMD64 / PPC64le
 ARG BASE_IMAGE
+ARG APPLICATION_NAME
+# get the base image from argument
+FROM maven:3.6.1-jdk-11-slim as builder
+
+WORKDIR /app
+
+COPY . .
+
 FROM ${BASE_IMAGE}
 
 # Add Maintainer Info
-LABEL authors="gituikumacharia2@gmail.com"
+LABEL authors="gituikumachari2@gmail.com"
 
-# Application Name.
+# reference application name build argument
 ARG APPLICATION_NAME
 
-# Port to be Exposed
+# App home directory
+ENV APP_HOME_DIR=/apps/development
+
+# App jar file name
 ENV EXPOSE_PORT=8080
 
-## Service Home Directory
-ENV APP_HOME_DIRECTORY=/apps/kyosk-config
-
-## Switch to User Root.
+# Switch to root user
 USER root
 
-## Create the home directory
-RUN mkdir -p ${APP_HOME_DIRECTORY}
+# Create application folder
+RUN mkdir -p ${APP_HOME_DIR}
 
 # Create app user
 RUN groupadd -g 10000 appuser
-RUN useradd --home-dir ${APP_HOME_DIRECTORY} -u 10000 -g appuser appuser
-
+RUN useradd --home-dir ${APP_HOME_DIR} -u 10000 -g appuser appuser
 
 # Add jar to application
-ADD target/${APPLICATION_NAME}.jar ${APP_HOME_DIRECTORY}/application.jar
-RUN echo "${APP_HOME_DIRECTORY}/application.jar"
-
+COPY --from=builder /app/target/${APPLICATION_NAME}-*.jar ${APP_HOME_DIR}/application.jar
+# ADD target/${APPLICATION_NAME}.jar ${APP_HOME_DIR}/application.jar
+RUN echo "${APP_HOME_DIR}/application.jar"
 
 # Grant app user the necessary rights
-RUN chmod -R 0766 ${APP_HOME_DIRECTORY}
-RUN chown -R appuser:appuser ${APP_HOME_DIRECTORY}
+RUN chmod -R 0766 ${APP_HOME_DIR}
+RUN chown -R appuser:appuser ${APP_HOME_DIR}
 RUN chmod g+w /etc/passwd
 
 EXPOSE ${EXPOSE_PORT}
 
 # Switch to the application directory
-WORKDIR ${APP_HOME_DIRECTORY}
+WORKDIR ${APP_HOME_DIR}
 
 # Switch to app user
 USER appuser
+
 
 # Entry point to run jar file
 #ENTRYPOINT java -jar <name>.jar
