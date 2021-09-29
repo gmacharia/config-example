@@ -43,7 +43,7 @@ RUN chmod g+w /etc/passwd
 
 EXPOSE ${EXPOSE_PORT}
 
-# Switch to the application directory
+# Switch to the application directore
 WORKDIR ${APP_HOME_DIR}
 
 # Switch to app user
