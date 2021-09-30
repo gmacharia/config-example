@@ -4,7 +4,7 @@ echo " \n ********** BEGIN ********** \n"
 application=kyosk-config-service
 
 docker_username=gmasharia
-docker_image_tag=1
+docker_image_tag=1$
 
 namespace=kyosk
 
