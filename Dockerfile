@@ -36,7 +36,7 @@ RUN groupadd -g 10000 appuser
 RUN useradd --home-dir ${APP_HOME_DIR} -u 10000 -g appuser appuser
 
 # Add jar to application
-COPY --from=builder /app/target/kyosk-config-*.jar ${APP_HOME_DIR}/application.jar
+COPY --from=builder /app/target/${APPLICATION_NAME}-*.jar ${APP_HOME_DIR}/application.jar
 #ADD target/${APPLICATION_NAME}.jar ${APP_HOME_DIR}/application.jar
 RUN echo "${APP_HOME_DIR}/application.jar"
 
