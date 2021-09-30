@@ -108,7 +108,7 @@ public class ConfigurationService implements ServiceConfigImpl {
     public ResponseEntity<Object> createConfigRecord(KyoskConfig configurationRequestDT) {
         log.info("sanitized payload received {}", configurationRequestDT.toString());
 
-        Map<String, Object> response = new HashMap<>();
+        Map<String, Object> responseMap = new HashMap<>();
 
         KyoskConfig entity = new KyoskConfig();
         Metadata metadata = new Metadata();
@@ -136,6 +136,8 @@ public class ConfigurationService implements ServiceConfigImpl {
         } catch (JsonProcessingException e) {
             //return any db excecption caught
             log.info("Error caught {}", e.getMessage());
+            responseMap.put("ErrorMessage", e.getMessage());
+            return new ResponseEntity<>(responseMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         //lets return the status to the user
         return new ResponseEntity<>(entity, HttpStatus.ACCEPTED);

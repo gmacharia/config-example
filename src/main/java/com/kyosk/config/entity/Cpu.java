@@ -6,7 +6,6 @@
 package com.kyosk.config.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,10 +22,8 @@ import lombok.NoArgsConstructor;
 public class Cpu {
 
     @JsonProperty("enabled")	
-    @Column(insertable = false, updatable = false)
     private String cpu_enabled;
     
     @JsonProperty("value")
-    @Column(insertable = false, updatable = false)
     private String cpu_value;
 }

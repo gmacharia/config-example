@@ -23,6 +23,5 @@ import lombok.NoArgsConstructor;
 public class Monitoring {
     
     @JsonProperty("enabled")
-    @JsonAlias("enabled")
     private String monitoring_enabled;
 }
