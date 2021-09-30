@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kyosk</groupId>
-    <artifactId>kyosk-config</artifactId>
+    <artifactId>kyosk-config-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>kyosk-config</name>
     <description>Demo project for Spring Boot</description>
