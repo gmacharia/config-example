@@ -38,6 +38,7 @@ public class ConfigurationService implements ServiceConfigImpl {
 
     private final KyoskRepo kyoskRepository;
     private final ObjectMapper objectMapper;
+    private final SharedFunction sharedFunction;
 
     @Value("${apps.conig.kyosk.limit}")
     String searchLimitKey;
@@ -51,8 +52,17 @@ public class ConfigurationService implements ServiceConfigImpl {
     }
 
     @Override
-    public List<KyoskConfig> fetchKyoskConfigsByName(String name) {
-        return kyoskRepository.findByConfigName(name);
+    public ResponseEntity<Object> fetchKyoskConfigsByName(String name) {
+        HashMap<String, Object> responseMap = new HashMap<>();
+        List<KyoskConfig> configExists = kyoskRepository.findByConfigName(name);
+
+        if (configExists.isEmpty()) {
+            responseMap.put("Message", name + " Not found");
+            return new ResponseEntity<>(responseMap, HttpStatus.NOT_FOUND);
+        } else {
+            responseMap.put("Transactions", kyoskRepository.findByConfigName(name));
+            return new ResponseEntity<>(responseMap, HttpStatus.ACCEPTED);
+        }
     }
 
     @Override
@@ -77,6 +87,7 @@ public class ConfigurationService implements ServiceConfigImpl {
 
         //let's check string passed and what we have on props file
         List<KyoskConfig> response = null;
+
         try {
 
             if (mapValue.containsKey(searchLimitKey)) {
@@ -94,8 +105,6 @@ public class ConfigurationService implements ServiceConfigImpl {
                 List<KyoskConfig> enabledMonitored = kyoskRepository.fetchEnabledMonitor(monitorValue);
                 response = enabledMonitored;
 
-            } else {
-
             }
             log.info("Response back to user [{}]", objectMapper.writeValueAsString(response.toString()));
         } catch (JsonProcessingException ex) {
@@ -106,41 +115,15 @@ public class ConfigurationService implements ServiceConfigImpl {
 
     @Override
     public ResponseEntity<Object> createConfigRecord(KyoskConfig configurationRequestDT) {
-        log.info("sanitized payload received {}", configurationRequestDT.toString());
-
-        Map<String, Object> responseMap = new HashMap<>();
-
-        KyoskConfig entity = new KyoskConfig();
-        Metadata metadata = new Metadata();
-        Limits limits = new Limits();
-        Monitoring monitoring = new Monitoring();
-
-        try {
-
-            monitoring.setMonitoring_enabled(configurationRequestDT.getMetadata().getMonitoring().getMonitoring_enabled());
-
-            Cpu cpu = new Cpu();
-            cpu.setCpu_enabled(configurationRequestDT.getMetadata().getLimits().getCpu().getCpu_enabled());
-            cpu.setCpu_value(configurationRequestDT.getMetadata().getLimits().getCpu().getCpu_value());
-
-            limits.setCpu(cpu);
-
-            metadata.setMonitoring(monitoring);
-            metadata.setLimits(limits);
-
-            entity.setConfigName(configurationRequestDT.getConfigName());
-            entity.setMetadata(metadata);
-
-            log.info("before saving response {}", objectMapper.writeValueAsString(entity));
-            kyoskRepository.save(entity);
-        } catch (JsonProcessingException e) {
-            //return any db excecption caught
-            log.info("Error caught {}", e.getMessage());
-            responseMap.put("ErrorMessage", e.getMessage());
-            return new ResponseEntity<>(responseMap, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        log.info("sanitized payload received before saving {}", configurationRequestDT.toString());
         //lets return the status to the user
-        return new ResponseEntity<>(entity, HttpStatus.ACCEPTED);
+        return sharedFunction.populateConfigRecord(configurationRequestDT);
     }
 
+    @Override
+    public ResponseEntity<Object> updateConfigRecord(KyoskConfig updatePayload) {
+        log.info("lets do the update {}", updatePayload.toString());
+
+        return sharedFunction.populateConfigRecord(updatePayload);
+    }
 }

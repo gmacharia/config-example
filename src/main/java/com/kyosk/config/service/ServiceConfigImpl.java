@@ -21,11 +21,13 @@ public interface ServiceConfigImpl {
 
     List<?> searchMapByParam(Map mapValue);
 
-    List<KyoskConfig> fetchKyoskConfigsByName(String name);
+     ResponseEntity<Object> fetchKyoskConfigsByName(String name);
     
     ResponseEntity<Object> createConfigRecord(KyoskConfig configurationRequestDT);
     
     ResponseEntity<Object> deleteConfigData(String name);
+    
+    ResponseEntity<Object> updateConfigRecord(KyoskConfig payload);
     
     
 }

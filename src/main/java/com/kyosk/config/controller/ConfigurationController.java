@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,11 +83,16 @@ public class ConfigurationController {
         return new ResponseEntity<>(configurationService.createConfigRecord(kyoskConfig), HttpStatus.OK);
     }
 
+    @PutMapping({"/configs/update"})
+    public ResponseEntity<Object> updateTodo(@RequestBody KyoskConfig kyoskConfig) {
+        return new ResponseEntity<>(configurationService.updateConfigRecord(kyoskConfig), HttpStatus.OK);
+    }
+
     /**
      * Here we are deleting a config in the Db
      *
      * @param name
-     * @return 
+     * @return
      */
     @DeleteMapping("/configs/{name}")
     public ResponseEntity<Object> deleteConfigData(@PathVariable("name") String name) {
