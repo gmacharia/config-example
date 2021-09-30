@@ -2,10 +2,10 @@
 
 ## Please ensure you have the following installed before hand
 
-    * docker
-    * minikube
-    * kubectl installed before running the below commands
-    * git
+    - docker
+    - minikube
+    - kubectl installed before running the below commands
+    - git
 
 ## How to Setup
 
