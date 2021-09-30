@@ -48,7 +48,7 @@ Digest: sha256:5a364f424d91d77273607ef964cc94dcfdba12a608e2c378801a0129ce6b5e3d
 Status: Image is up to date for gmasharia/kyosk-config-service:v1.0.0-b1e6ec-amd64
 docker.io/gmasharia/kyosk-config-service:v1.0.0-b1e6ec-amd64
 
-********** LOGIN TO DOCKER COMPLETE **********
+**********  DOCKER PULL COMPLETE **********
 
 ********** CHECK DEPLOYMENT SERVICE **********
 
