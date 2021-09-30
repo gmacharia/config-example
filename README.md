@@ -1,25 +1,25 @@
 #### Ensure you have docker,minikube and kubectl installed before running the below commands
 
-#### How to Setuo
+## How to Setup
 
-# Step 1 : Clone the Project
+### Step 1 : Clone the Project
 
 ```
 git clone https://github.com/gmacharia/kyosk-config.git
 ```
 
-# Step 2: Enter into the project
+### Step 2: Enter into the project
 
 ```
 cd kyosk-config
 ```
 
-# Step 3: Run the Deployment Script
+### Step 3: Run the Deployment Script
 
 ```
 sh deployment.sh <docker_image_tag>
 ```
-# Step 4 Wait for the following output
+### Step 4:  Wait for the following output
 
 ```
 \n ********** BEGIN ********** \n
@@ -37,7 +37,7 @@ Login Succeeded
 
 ```
 
-# Step 5 : Get Namespaces  
+### Step 5 : Get Namespaces  
 ```
 kubectl get namespaces
 
@@ -48,7 +48,7 @@ kube-public       Active   24h
 kube-system       Active   24h
 kyosk             Active   7h1m
 ```
-# Step 6 : List Pods 
+### Step 6 : List Pods 
 ```
 kubectl -n kyosk get pods
 
@@ -60,12 +60,12 @@ NAME                                    READY   STATUS    RESTARTS   AGE
 kyosk-config-service-744d98894f-pfvcd   1/1     Running   0          6m55s
 ```
 
-# Step 7 : View Logs
+### Step 7 : View Logs
 ```
 kubectl -n kyosk logs -f kyosk-config-service-744d98894f-pfvcd --since=2m
 
 ```
-# Step 8 : Get external IP configured
+### Step 8 : Get external IP configured
 
 ```
 minikube service -n kyosk  kyosk-config-service
@@ -78,7 +78,7 @@ minikube service -n kyosk  kyosk-config-service
 
 ```
 
-# Step 9 : Url to test are as below
+### Step 9 : Url to test are as below
 
 ```
 
@@ -90,7 +90,7 @@ Fetch All: http://192.168.49.2:30298/kyosk/api/configs
 
 ```
 
-## Sample Payload
+### Sample Payload
  
 ```
 
@@ -109,7 +109,7 @@ Fetch All: http://192.168.49.2:30298/kyosk/api/configs
     }
 }
 ```
-##Pipeline was configured via git
+## Pipeline was configured via git
 
 
 
