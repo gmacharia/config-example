@@ -1,6 +1,6 @@
 # Kyosk Config Project Setup
 
-## Please note the docker image build was automated by the Github Actions/Workflows.
+/*Please note the docker image build was automated by the Github Actions/Workflows*/
 ## Please ensure you have the following installed before hand.
     - docker
     - minikube
