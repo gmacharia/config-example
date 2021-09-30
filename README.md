@@ -31,10 +31,12 @@ sh deployment.sh <docker_image_tag>
 
 Error from server (NotFound): namespaces "kyosk" not found
 deployment.sh: line 18: [: ==: unary operator expected
+
 ********** CREATING NAMESPACE **********
 
 kubectl create namespace kyosk
 namespace/kyosk created
+
 ********** COMPLETED NAMESPACE STATE CHECK **********
 
 ********** DOCKER PULL IMAGE **********
@@ -45,17 +47,20 @@ v1.0.0-b1e6ec-amd64: Pulling from gmasharia/kyosk-config-service
 Digest: sha256:5a364f424d91d77273607ef964cc94dcfdba12a608e2c378801a0129ce6b5e3d
 Status: Image is up to date for gmasharia/kyosk-config-service:v1.0.0-b1e6ec-amd64
 docker.io/gmasharia/kyosk-config-service:v1.0.0-b1e6ec-amd64
+
 ********** LOGIN TO DOCKER COMPLETE **********
 
 ********** CHECK DEPLOYMENT SERVICE **********
 
 Error from server (NotFound): deployments.apps "kyosk-config-service" not found
 deployment.sh: line 51: [: ==: unary operator expected
+
 ********** CREATING DEPLOYMENT **********
 
 kubectl -n kyosk create deployment kyosk-config-service --image=gmasharia/kyosk-config-service:v1.0.0-b1e6ec-amd64
 
 deployment.apps/kyosk-config-service created
+
 ********** CHECK DEPLOYMENT SERVICE COMPLETE **********
 
 ********** EXPOSING SERVICE VIA LOADBALANCER **********
