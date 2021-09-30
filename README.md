@@ -1,9 +1,11 @@
 ### Ensure you have docker,minikube and kubectl installed before running the below commands
 ### steps
+
 1. git clone https://github.com/gmacharia/kyosk-config.git
 2. Run the pipeline<sh deployment.sh openjdk:11.0.3-jdk <your-docker-username> <your-docker-password> <image tag>>
-Expected output
 
+ Expected output
+`
 \n ********** BEGIN ********** \n
 \n ********** NAMESPACE STATE CHECK ********** \n
 \n ********** NAMESPACE kyosk EXISTS ********** \n
@@ -41,6 +43,8 @@ kubectl -n kyosk logs -f kyosk-config-service-744d98894f-pfvcd --since=2m
 
 How to get external IP configured
 minikube service -n kyosk  kyosk-config-service
+ 
+`
 
 |-----------|----------------------|-------------|---------------------------|
 | NAMESPACE |         NAME         | TARGET PORT |            URL            |
