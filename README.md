@@ -27,16 +27,34 @@ sh deployment.sh <docker_image_tag>
 ```
 \n ********** BEGIN ********** \n
 \n ********** NAMESPACE STATE CHECK ********** \n
-\n ********** NAMESPACE kyosk EXISTS ********** \n
+Error from server (NotFound): namespaces "kyosk" not found
+deployment.sh: line 18: [: ==: unary operator expected
+\n ********** CREATING NAMESPACE ********** \n
+kubectl create namespace kyosk
+namespace/kyosk created
 \n ********** COMPLETED NAMESPACE STATE CHECK ********** \n
-\n ********** LOGIN TO DOCKER ********** \n
-WARNING! Using --password via the CLI is insecure. Use --password-stdin.
-WARNING! Your password will be stored unencrypted in /home/kobe/.docker/config.json.
-Configure a credential helper to remove this warning. See
-https://docs.docker.com/engine/reference/commandline/login/#credentials-store
-
-Login Succeeded
 \n ********** DOCKER PULL IMAGE ********** \n
+\n  docker pull gmasharia/kyosk-config-service:v1.0.0-b1e6ec-amd64 \n
+v1.0.0-b1e6ec-amd64: Pulling from gmasharia/kyosk-config-service
+Digest: sha256:5a364f424d91d77273607ef964cc94dcfdba12a608e2c378801a0129ce6b5e3d
+Status: Image is up to date for gmasharia/kyosk-config-service:v1.0.0-b1e6ec-amd64
+docker.io/gmasharia/kyosk-config-service:v1.0.0-b1e6ec-amd64
+ \n ********** LOGIN TO DOCKER COMPLETE ********** \n
+\n ********** CHECK DEPLOYMENT SERVICE ********** \n
+Error from server (NotFound): deployments.apps "kyosk-config-service" not found
+deployment.sh: line 51: [: ==: unary operator expected
+\n ********** CREATING DEPLOYMENT ********** \n
+\n kubectl -n kyosk create deployment kyosk-config-service --image=gmasharia/kyosk-config-service:v1.0.0-b1e6ec-amd64 \n
+deployment.apps/kyosk-config-service created
+\n ********** CHECK DEPLOYMENT SERVICE COMPLETE ********** \n
+ \n ********** EXPOSING SERVICE VIA LOADBALANCER ********** \n
+Error from server (NotFound): services "kyosk-config-service" not found
+deployment.sh: line 85: [: ==: unary operator expected
+\n ********** EXPOSE SERVICE VIA LOADBALANCER  ********** \n
+\n kubectl -n kyosk expose deployment kyosk-config-service --type=LoadBalancer --port=80 --target-port=8080 \n
+service/kyosk-config-service exposed
+ \n ********** EXPOSING SERVICE VIA LOADBALANCER COMPLETE ********** \n
+\n  ********** ENTIRE COMPLETE ********** \n
 
 ```
 
