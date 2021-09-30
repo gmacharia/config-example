@@ -3,9 +3,8 @@ echo " \n ********** BEGIN ********** \n"
 
 application=kyosk-config-service
 
-docker_username=$1
-docker_password=$2
-docker_image_tag=$3
+docker_username=gmasharia
+docker_image_tag=1
 
 namespace=kyosk
 
@@ -33,10 +32,6 @@ echo "\n ********** COMPLETED NAMESPACE STATE CHECK ********** \n"
 sleep 10s
 
 ## Now We deploy our service.
-
-echo " \n ********** LOGIN TO DOCKER ********** \n"
-
-docker login -u $docker_username -p $docker_password
 
 echo "\n ********** DOCKER PULL IMAGE ********** \n"
 
