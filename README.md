@@ -15,24 +15,24 @@
 git clone https://github.com/gmacharia/kyosk-config.git
 ```
 
-### Step 2: Access the project folder
+### Step 2 : Access the project folder
 
 ```
 cd kyosk-config
 ```
 
-### Step 3: Checkout the master branch
+### Step 3 : Checkout the master branch
 
 ```
 git checkout master
 ```
 
-### Step 4: Run the Deployment Script
+### Step 4 : Run the Deployment Script
 
 ```
 sh deployment.sh <docker_image_tag>
 ```
-### Step 5:  Wait for the following output
+### Step 5 :  Wait for the following output
 
 ```
 \n ********** BEGIN ********** \n
