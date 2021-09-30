@@ -1,5 +1,5 @@
 #!/bin/bash
-echo " ********** BEGIN ********** "
+echo " \n ********** BEGIN ********** \n"
 
 application=kyosk-config-service
 
@@ -7,37 +7,98 @@ docker_username=$1
 docker_password=$2
 docker_image_tag=$3
 
+namespace=kyosk
+
 ## Deploy to Minikube.
 ## First We Create A Namespace.
-echo " ********** creating namespace ********** "
-kubectl create namespace kyosk
+
+echo "\n ********** NAMESPACE STATE CHECK ********** \n"
+
+elem=$(kubectl get ns $namespace -o=jsonpath='{.status.phase}')
+      
+if [ $elem == "Active" ] ; then
+           
+       echo "\n ********** NAMESPACE $namespace EXISTS ********** \n"
+else
+       echo "\n ********** CREATING NAMESPACE ********** \n"
+       echo "kubectl create namespace kyosk"
+       
+       kubectl create namespace $namespace
+            
+fi
+
+echo "\n ********** COMPLETED NAMESPACE STATE CHECK ********** \n"
 
 ## Sleep for a few to make sure the pod is deployed
 sleep 10s
 
 ## Now We deploy our service.
 
-echo " ********** login to docker ********** "
+echo " \n ********** LOGIN TO DOCKER ********** \n"
 
 docker login -u $docker_username -p $docker_password
 
-echo " ********** docker pull image ********** "
+echo "\n ********** DOCKER PULL IMAGE ********** \n"
 
 docker pull $docker_username/$application:$docker_image_tag
 
-echo " ********** deploying service ********** "
+echo " \n ********** LOGIN TO DOCKER COMPLETE ********** \n"
 
-kubectl -n kyosk create deployment $application --image=$docker_username/$application:$docker_image_tag
 
-## Sleep for 5m to wait for pod to start running.
-sleep 20s
+echo "\n ********** CHECK DEPLOYMENT SERVICE ********** \n"
+
+
+elem2=$(kubectl get deployment -n kyosk $application | tail -n +2 | awk '{print $1}')
+
+if [ $elem2 == $application ] ; then
+           
+        echo "\n ********** DEPLOYMENT $application EXISTS REQUIRES UPDATE ********** \n"
+
+        echo " \n kubectl  -n $namespace set image deployment/kyosk-config-service $application=$docker_username/kyosk-config-service:$docker_image_tag \n"
+
+        kubectl  -n $namespace set image deployment/$application $application=$docker_username/$application:$docker_image_tag 
+
+else
+	
+		echo "\n ********** CREATING DEPLOYMENT ********** \n"
+	    
+	    echo "\n kubectl -n kyosk create deployment $application --image=$docker_username/$application:$docker_image_tag \n"
+
+	    kubectl -n kyosk create deployment $application --image=$docker_username/$application:$docker_image_tag
+    
+fi
+
+echo "\n ********** CHECK DEPLOYMENT SERVICE COMPLETE ********** \n"
+
+
+## Sleep for 5s to wait for pod to start running.
+sleep 10s
 
 ## Expose the service using via loadBalancer IP.
 ## On Other clusters, the IP is generated as an external IP.
 ## On Minikube, the External IP will be marked as "Pending" and you should run "minikube service -n kyosk  kyosk-config-service" to expose the service externally.
-echo " ********** exposing service via loadbalancer ********** "
-kubectl -n kyosk expose deployment $application --type=LoadBalancer --port=80 --target-port=8080
 
-echo " ********** COMPLETE ********** "
+echo " \n ********** EXPOSING SERVICE VIA LOADBALANCER ********** \n"
 
 
+elem3=$(kubectl get services $application -n $namespace| tail -n +2 | awk '{print $1}')
+
+
+if [ $elem3 == $application ] ; then
+           
+        echo "\n ********** LOADBALANCER $application EXISTS DOES NOT REQUIRE CREATION ********** \n"
+
+else
+	
+		echo "\n ********** EXPOSE SERVICE VIA LOADBALANCER  ********** \n"
+	    
+	    echo "\n kubectl -n kyosk expose deployment $application --type=LoadBalancer --port=80 --target-port=8080 \n"
+
+	    kubectl -n kyosk expose deployment $application --type=LoadBalancer --port=80 --target-port=8080
+    
+fi
+
+echo " \n ********** EXPOSING SERVICE VIA LOADBALANCER COMPLETE ********** \n"
+
+
+echo "\n  ********** ENTIRE COMPLETE ********** \n"
