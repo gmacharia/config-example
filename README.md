@@ -58,6 +58,8 @@ Fetch Specific: http://192.168.49.2:30298/kyosk/api/search?metadata.monitoring.e
 Fetch All: http://192.168.49.2:30298/kyosk/api/configs
 
 Payload
+ 
+```
 
 {
     "name": "datacenter-3",
@@ -73,7 +75,7 @@ Payload
         }
     }
 }
-
+```
 ##Pipeline was configured via git
 
 
