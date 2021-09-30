@@ -124,6 +124,7 @@ Delete: http://192.168.49.2:30298/kyosk/api/configs/datacenter-3
 Fetch Specific: http://192.168.49.2:30298/kyosk/api/search?metadata.monitoring.enabled=true
 Fetch All: http://192.168.49.2:30298/kyosk/api/configs
 ```
+----
 ### Sample Payload
 ```
 {
