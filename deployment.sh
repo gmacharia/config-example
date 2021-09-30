@@ -1,5 +1,5 @@
 #!/bin/bash
-echo " \n ********** BEGIN ********** \n"
+echo " \n ********** BEGIN DEPLOYMENT********** \n"
 
 application=kyosk-config-service
 
@@ -40,7 +40,7 @@ echo "\n  docker pull $docker_username/$application:$docker_image_tag \n"
 
 docker pull $docker_username/$application:$docker_image_tag
 
-echo " \n ********** LOGIN TO DOCKER COMPLETE ********** \n"
+echo " \n ********** DOCKER PULL COMPLETE ********** \n"
 
 
 echo "\n ********** CHECK DEPLOYMENT SERVICE ********** \n"
@@ -99,4 +99,4 @@ fi
 echo " \n ********** EXPOSING SERVICE VIA LOADBALANCER COMPLETE ********** \n"
 
 
-echo "\n  ********** ENTIRE COMPLETE ********** \n"
+echo "\n  ********** DEPLOYMENT COMPLETE ********** \n"
