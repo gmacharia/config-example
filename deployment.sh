@@ -35,6 +35,9 @@ sleep 10s
 
 echo "\n ********** DOCKER PULL IMAGE ********** \n"
 
+
+echo "\n  docker pull $docker_username/$application:$docker_image_tag \n"
+
 docker pull $docker_username/$application:$docker_image_tag
 
 echo " \n ********** LOGIN TO DOCKER COMPLETE ********** \n"
