@@ -34,7 +34,7 @@ sleep 20s
 
 ## Expose the service using via loadBalancer IP.
 ## On Other clusters, the IP is generated as an external IP.
-## On Minikube, the External IP will be marked as "Pending" and you should run "minikube service -n staging  kyosk-config-service" to expose the service externally.
+## On Minikube, the External IP will be marked as "Pending" and you should run "minikube service -n kyosk  kyosk-config-service" to expose the service externally.
 echo " ********** exposing service via loadbalancer ********** "
 kubectl -n kyosk expose deployment $application --type=LoadBalancer --port=80 --target-port=8080
 
