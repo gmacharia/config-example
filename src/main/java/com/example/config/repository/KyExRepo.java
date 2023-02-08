@@ -3,30 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kyosk.config.repository;
+package com.example.config.repository;
 
-import com.kyosk.config.entity.KyoskConfig;
+import com.example.config.entity.KyConfig;
+
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
- *
  * @author kobe
  */
 @Repository
-public interface KyoskRepo extends JpaRepository<KyoskConfig, Long> {
+public interface KyExRepo extends JpaRepository<KyConfig, Long> {
 
-    List<KyoskConfig> findByConfigName(String name);
-    
-    List<KyoskConfig> deleteByConfigName(String name);
+    List<KyConfig> findByConfigName(String name);
+
+    List<KyConfig> deleteByConfigName(String name);
 
     @Query(value = "SELECT * FROM configs t where cpu_enabled = ?1",
             nativeQuery = true)
-    List<KyoskConfig> fetchEnabledLimit(String value);
+    List<KyConfig> fetchEnabledLimit(String value);
 
     @Query(value = "SELECT * FROM configs t where monitoring_enabled = ?1",
             nativeQuery = true)
-    List<KyoskConfig> fetchEnabledMonitor(String monitorValue);
+    List<KyConfig> fetchEnabledMonitor(String monitorValue);
 }

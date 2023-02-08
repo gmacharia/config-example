@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kyosk.config.controller;
+package com.example.config.controller;
 
-import com.kyosk.config.entity.KyoskConfig;
-import com.kyosk.config.service.ConfigurationService;
+import com.example.config.entity.KyConfig;
+import com.example.config.service.ConfigurationService;
+
 import java.util.List;
 import java.util.Map;
 import javax.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,13 +27,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
  * @author kobe
  */
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("kyosk/api")
+@RequestMapping("example/api")
 public class ConfigurationController {
 
     private final ConfigurationService configurationService;
@@ -75,16 +76,16 @@ public class ConfigurationController {
     /**
      * Here we are just creating a new config in the Db
      *
-     * @param kyoskConfig
+     * @param kyConfig
      * @return
      */
     @PostMapping(value = "/configs/create")
-    public ResponseEntity<Object> createConfigDeta(@Valid @RequestBody KyoskConfig kyoskConfig) {
-        return new ResponseEntity<>(configurationService.createConfigRecord(kyoskConfig), HttpStatus.OK);
+    public ResponseEntity<Object> createConfigDeta(@Valid @RequestBody KyConfig kyConfig) {
+        return new ResponseEntity<>(configurationService.createConfigRecord(kyConfig), HttpStatus.OK);
     }
 
     @PutMapping({"/configs/update"})
-    public ResponseEntity<Object> updateTodo(@RequestBody KyoskConfig kyoskConfig) {
+    public ResponseEntity<Object> updateTodo(@RequestBody KyConfig kyoskConfig) {
         return new ResponseEntity<>(configurationService.updateConfigRecord(kyoskConfig), HttpStatus.OK);
     }
 

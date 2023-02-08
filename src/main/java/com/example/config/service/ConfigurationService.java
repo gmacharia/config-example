@@ -3,21 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kyosk.config.service;
+package com.example.config.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kyosk.config.entity.Cpu;
-import com.kyosk.config.entity.KyoskConfig;
-import com.kyosk.config.entity.Limits;
-import com.kyosk.config.entity.Metadata;
-import com.kyosk.config.entity.Monitoring;
-import com.kyosk.config.repository.KyoskRepo;
+import com.example.config.entity.KyConfig;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,9 +22,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.example.config.repository.KyExRepo;
 
 /**
- *
  * @author kobe
  */
 @Service
@@ -36,31 +33,31 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ConfigurationService implements ServiceConfigImpl {
 
-    private final KyoskRepo kyoskRepository;
+    private final KyExRepo kyExRepository;
     private final ObjectMapper objectMapper;
     private final SharedFunction sharedFunction;
 
-    @Value("${apps.conig.kyosk.limit}")
+    @Value("${apps.config.kyosk.limit}")
     String searchLimitKey;
 
-    @Value("${apps.conig.kyosk.monitoring}")
+    @Value("${apps.config.kyosk.monitoring}")
     String searchMonitoringKey;
 
     @Override
-    public List<KyoskConfig> fetchKyoskConfigs() {
-        return kyoskRepository.findAll();
+    public List<KyConfig> fetchKyoskConfigs() {
+        return kyExRepository.findAll();
     }
 
     @Override
     public ResponseEntity<Object> fetchKyoskConfigsByName(String name) {
         HashMap<String, Object> responseMap = new HashMap<>();
-        List<KyoskConfig> configExists = kyoskRepository.findByConfigName(name);
+        List<KyConfig> configExists = kyExRepository.findByConfigName(name);
 
         if (configExists.isEmpty()) {
             responseMap.put("Message", name + " Not found");
             return new ResponseEntity<>(responseMap, HttpStatus.NOT_FOUND);
         } else {
-            responseMap.put("Transactions", kyoskRepository.findByConfigName(name));
+            responseMap.put("Transactions", kyExRepository.findByConfigName(name));
             return new ResponseEntity<>(responseMap, HttpStatus.ACCEPTED);
         }
     }
@@ -68,16 +65,16 @@ public class ConfigurationService implements ServiceConfigImpl {
     @Override
     public ResponseEntity<Object> deleteConfigData(String configName) {
         HashMap<String, Object> responseMap = new HashMap<>();
-        List<KyoskConfig> configExists = kyoskRepository.findByConfigName(configName);
+        List<KyConfig> configExists = kyExRepository.findByConfigName(configName);
 
         if (configExists.isEmpty()) {
             responseMap.put("Message", configName + " Not found");
             return new ResponseEntity<>(responseMap, HttpStatus.NOT_FOUND);
         }
         // let's delete the config.
-        kyoskRepository.deleteByConfigName(configName);
+        kyExRepository.deleteByConfigName(configName);
         responseMap.put("Message", "Deletion was successful");
-        responseMap.put("Transactions", kyoskRepository.findAll());
+        responseMap.put("Transactions", kyExRepository.findAll());
 
         return new ResponseEntity<>(responseMap, HttpStatus.ACCEPTED);
     }
@@ -86,7 +83,7 @@ public class ConfigurationService implements ServiceConfigImpl {
     public List<?> searchMapByParam(Map mapValue) {
 
         //let's check string passed and what we have on props file
-        List<KyoskConfig> response = null;
+        List<KyConfig> response = null;
 
         try {
 
@@ -96,13 +93,13 @@ public class ConfigurationService implements ServiceConfigImpl {
 
                 log.info("Value passed to Db [{}]", limitValue);
 
-                List<KyoskConfig> enabledLimit = kyoskRepository.fetchEnabledLimit(limitValue);
+                List<KyConfig> enabledLimit = kyExRepository.fetchEnabledLimit(limitValue);
                 response = enabledLimit;
 
             } else if (mapValue.containsKey(searchMonitoringKey)) {
                 String monitorValue = mapValue.get(searchMonitoringKey).toString();
 
-                List<KyoskConfig> enabledMonitored = kyoskRepository.fetchEnabledMonitor(monitorValue);
+                List<KyConfig> enabledMonitored = kyExRepository.fetchEnabledMonitor(monitorValue);
                 response = enabledMonitored;
 
             }
@@ -114,14 +111,14 @@ public class ConfigurationService implements ServiceConfigImpl {
     }
 
     @Override
-    public ResponseEntity<Object> createConfigRecord(KyoskConfig configurationRequestDT) {
+    public ResponseEntity<Object> createConfigRecord(KyConfig configurationRequestDT) {
         log.info("sanitized payload received before saving {}", configurationRequestDT.toString());
         //lets return the status to the user
         return sharedFunction.populateConfigRecord(configurationRequestDT);
     }
 
     @Override
-    public ResponseEntity<Object> updateConfigRecord(KyoskConfig updatePayload) {
+    public ResponseEntity<Object> updateConfigRecord(KyConfig updatePayload) {
         log.info("lets do the update {}", updatePayload.toString());
 
         return sharedFunction.populateConfigRecord(updatePayload);

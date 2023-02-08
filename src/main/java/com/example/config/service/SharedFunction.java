@@ -3,27 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kyosk.config.service;
+package com.example.config.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kyosk.config.entity.Cpu;
-import com.kyosk.config.entity.KyoskConfig;
-import com.kyosk.config.entity.Limits;
-import com.kyosk.config.entity.Metadata;
-import com.kyosk.config.entity.Monitoring;
-import com.kyosk.config.repository.KyoskRepo;
+import com.example.config.entity.Cpu;
+import com.example.config.entity.KyConfig;
+import com.example.config.entity.Limits;
+import com.example.config.entity.Metadata;
+import com.example.config.entity.Monitoring;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.example.config.repository.KyExRepo;
 
 /**
- *
  * @author kobe
  */
 @Slf4j
@@ -32,15 +33,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class SharedFunction {
 
-    private final KyoskRepo kyoskRepository;
+    private final KyExRepo kyExRepo;
     private final ObjectMapper objectMapper;
 
-    public ResponseEntity<Object> populateConfigRecord(KyoskConfig updatePayload) {
+    public ResponseEntity<Object> populateConfigRecord(KyConfig updatePayload) {
         log.info("sanitized payload received before ammending {}", updatePayload.toString());
 
         Map<String, Object> responseMap = new HashMap<>();
 
-        KyoskConfig entity = new KyoskConfig();
+        KyConfig entity = new KyConfig();
         Metadata metadata = new Metadata();
         Limits limits = new Limits();
         Monitoring monitoring = new Monitoring();
@@ -62,7 +63,7 @@ public class SharedFunction {
             entity.setMetadata(metadata);
 
             log.info("before saving response {}", objectMapper.writeValueAsString(entity));
-            kyoskRepository.save(entity);
+            kyExRepo.save(entity);
         } catch (JsonProcessingException e) {
             //return any db excecption caught
             log.info("Error caught {}", e.getMessage());

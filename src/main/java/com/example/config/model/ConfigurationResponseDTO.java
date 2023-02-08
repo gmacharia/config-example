@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kyosk.config.model;
+package com.example.config.model;
 
-import com.kyosk.config.entity.Cpu;
-import com.kyosk.config.entity.Metadata;
+import com.example.config.entity.Cpu;
+import com.example.config.entity.Metadata;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- *
  * @author kobe
  */
 @Data

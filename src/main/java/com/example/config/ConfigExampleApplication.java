@@ -1,13 +1,13 @@
-package com.kyosk.config;
+package com.example.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KyoskConfigApplication {
+public class ConfigExampleApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(KyoskConfigApplication.class, args);
+        SpringApplication.run(ConfigExampleApplication.class, args);
     }
 
 }
